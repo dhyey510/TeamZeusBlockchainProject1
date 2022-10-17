@@ -1,0 +1,43 @@
+body {
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-color: #0d0d2b;
+  color: white;
+}
+
+model-viewer {
+  height: 500px;
+  width: 500px;
+}
+
+.btn {
+  border-radius: 2em;
+}
+
+.navbar-toggler-icon {
+  color: white;
+}
+i {
+  color: green;
+}
+
+#levelUp:hover i {
+  color: white;
+}
+
+#createZombie img {
+  margin-bottom: 5px;
+}
+
+.zombie ul li {
+  text-decoration: none;
+}
+#avtar1,
+#avtar2,
+#avtar3,
+#avtar4,
+#avtar5 {
+  margin: auto;
+  width: 300px;
+  height: 300px;
+}

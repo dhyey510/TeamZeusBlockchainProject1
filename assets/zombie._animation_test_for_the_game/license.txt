@@ -1,0 +1,11 @@
+Model Information:
+* title:	ZOMBIE. Animation test for the game
+* source:	https://sketchfab.com/3d-models/zombie-animation-test-for-the-game-093d4624339c43afb277a2abab9b4735
+* author:	stasbelyk13 (https://sketchfab.com/stasbelyk13)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "ZOMBIE. Animation test for the game" (https://sketchfab.com/3d-models/zombie-animation-test-for-the-game-093d4624339c43afb277a2abab9b4735) by stasbelyk13 (https://sketchfab.com/stasbelyk13) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)

@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>CryptoZombies</title>
+    <link rel="icon" href="favicon.ico" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css"
+    />
+    <link rel="stylesheet" href="styles.css" />
+    <script
+      language="javascript"
+      type="text/javascript"
+      src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"
+    ></script>
+    <script
+      language="javascript"
+      type="text/javascript"
+      src="https://cdnjs.cloudflare.com/ajax/libs/web3/1.2.7-rc.0/web3.min.js"
+    ></script>
+    <script
+      language="javascript"
+      type="text/javascript"
+      src="cryptozombies_abi.js"
+    ></script>
+    <script
+      type="module"
+      src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"
+    ></script>
+    <script
+      nomodule
+      src="https://unpkg.com/@google/model-viewer/dist/model-viewer-legacy.js"
+    ></script>
+  </head>
+
+  <body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg bg-transparent">
+      <div class="container-fluid">
+        <!-- nav logo -->
+        <a class="navbar-brand text-white" href="#">
+          <img
+            src="https://download.logo.wine/logo/Ethereum/Ethereum-Logo.wine.png"
+            alt="ZombieDApp"
+            width="50"
+            height="54"
+            class="d-inline-block align-text-center"
+          />
+          ZombieDApp
+        </a>
+
+        <!-- toggle button nav -->
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarSupportedContent"
+          aria-controls="navbarSupportedContent"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <li class="nav-item mx-2">
+              <a
+                class="nav-link text-white-50 border-bottom border-white active"
+                aria-current="page"
+                href="index.html"
+                >Home</a
+              >
+            </li>
+            <li class="nav-item mx-2">
+              <a class="nav-link text-white" href="about.html">About</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+    <!-- Complete navbar code -->
+
+    <!-- alert section -->
+    <div id="txStatus"></div>
+
+    <!-- main section -->
+    <section class="container text-center my-1">
+      <div class="row">
+        <!-- 3d model section -->
+        <div class="col-lg-6 my-lg-auto mx-lg-auto my-6 ms-5">
+          <model-viewer
+            id="avtar"
+            src=""
+            alt="VR Headset"
+            autoplay
+            auto-rotate
+            shadow-intensity="5"
+            camera-controls
+            ar
+            ios-src=""
+          ></model-viewer>
+        </div>
+
+        <!-- content section  -->
+        <div class="col-lg-6 mx-lg-auto my-lg-auto mb-5">
+          <div class="d-grid gap-5 col-6 mx-auto">
+            <button class="btn btn-outline-light" type="button" id="showZombie">
+              Show Zombie
+              <img
+                width="20"
+                height="20"
+                src="assets/right-arrow-arrows-svgrepo-com (1).svg"
+                alt="Right Icon"
+              />
+            </button>
+            <button
+              class="btn btn-outline-primary"
+              type="button"
+              id="createZombie"
+            >
+              Create Zombie
+              <img
+                width="20"
+                height="20"
+                src="assets/zombie-svgrepo-com.svg"
+                alt="Zombie"
+              />
+            </button>
+            <button class="btn btn-outline-success" type="button" id="levelUp">
+              Level Up
+              <i class="bi bi-arrow-up"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- modal section  -->
+    <div
+      class="modal fade"
+      id="exampleModal"
+      tabindex="-1"
+      aria-labelledby="exampleModalLabel"
+    >
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title fs-5 text-dark" id="exampleModalLabel">
+              Zombie Details
+            </h1>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body text-dark">
+            <div class="zombie row"></div>
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
+            >
+              Close
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- <div id="zombies"></div> -->
+    <!-- <div id="txStatus"></div>
+    <div id="zombies"></div>
+
+    <button class="showZombieButton">Show Zombies</button>
+    <button class="createzombieButton">Create Zombie</button>
+    <button class="levelupButton">Level Up</button> -->
+
+    <script>
+      var cryptoZombies;
+      var userAccount;
+      const showZombieButton = document.querySelector("#showZombie");
+      const createzombieButton = document.querySelector("#createZombie");
+      const levelupButton = document.querySelector("#levelUp");
+
+      function startApp() {
+        //ZombieOwnership contratc address
+        var cryptoZombiesAddress = "0xb29d5274f6123e767301772D0F12356E80C43C0c";
+
+        cryptoZombies = new web3.eth.Contract(
+          cryptoZombiesABI,
+          cryptoZombiesAddress
+        );
+
+        //the following code from Lesson 6, chapter 5 is obsolete
+        //     var accountInterval = setInterval(function () {
+
+        //      if (web3.eth.accounts[0] !== userAccount) {
+        //userAccount = web3.eth.accounts[0];
+
+        //     getZombiesByOwner(userAccount)
+        //      .then(displayZombies);
+        //  }
+        // }, 100);
+
+        cryptoZombies.events
+          .Transfer({ filter: { _to: userAccount } })
+          .on("data", function (event) {
+            let data = event.returnValues;
+            getZombiesByOwner(userAccount).then(displayZombies);
+          })
+          .on("error", console.error);
+      }
+
+      function selectAvtar(level) {
+        // const src = src1 === null ? $(avtar).attr("src") : src1;
+        const avtar = [
+          "assets/zombie (1)/scene.gltf",
+          "assets/zombie_woman/scene.gltf",
+          "assets/zombie_monster/scene.gltf",
+          "assets/zombie._animation_test_for_the_game/scene.gltf",
+        ];
+        console.log(level);
+        switch (level) {
+          case "1":
+            return avtar[0];
+            break;
+          case "2":
+            return avtar[1];
+            break;
+          case "3":
+            return avtar[2];
+            break;
+          case "4":
+            return avtar[3];
+            break;
+          default:
+            return avtar[0];
+            break;
+        }
+      }
+
+      function displayZombies(ids) {
+        // $("#zombies").empty();
+
+        for (id of ids) {
+          getZombieDetails(id).then(function (zombie) {
+            $(".row").append(`
+            <div class="col" id="displayAvtar">
+              <model-viewer
+                  id="avtar1"
+                  src="${selectAvtar(zombie.level)}"
+                  alt="VR Headset"
+                  autoplay
+                  auto-rotate
+                  shadow-intensity="1"
+                  camera-controls
+                  ar
+                  ios-src="${selectAvtar(zombie.level)}"
+                ></model-viewer>
+              </div>
+              <div class="col text-dark" id="displayContent">
+                  <p><b>Name:</b> ${zombie.name}</>
+                  <p><b>DNA:</b> ${zombie.dna}</p>
+                  <p><b>Level:</b> ${zombie.level}</p>
+                  <p><b>Wins:</b> ${zombie.winCount}</p>
+                  <p><b>Losses:</b> ${zombie.lossCount}</p>
+                  <p><b>Ready Time:</b> ${zombie.readyTime}</p>
+              </div>
+            `);
+          });
+        }
+        $("#exampleModal").modal("show");
+      }
+
+      function createRandomZombie(name) {
+        const wrapper = document.createElement("div");
+        wrapper.innerHTML = [
+          `<div class="alert alert-warning alert-dismissible" role="alert">`,
+          `   <div>Creating new zombie on the blockchain. This may take a while...</div>`,
+          '   <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>',
+          "</div>",
+        ].join("");
+
+        $("#txStatus").append(wrapper);
+
+        return cryptoZombies.methods
+          .createRandomZombie(name)
+          .send({ from: userAccount })
+          .on("receipt", function (receipt) {
+            const wrapper = document.createElement("div");
+            wrapper.innerHTML = [
+              `<div class="alert alert-success alert-dismissible" role="alert">`,
+              `   <div>Successfully created ${name} !</div>`,
+              '   <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>',
+              "</div>",
+            ].join("");
+
+            $("#txStatus").append(wrapper);
+            $("#avtar").attr({
+              src: selectAvtar("1"),
+              "ios-src": selectAvtar("1"),
+            });
+
+            getZombiesByOwner(userAccount).then(displayZombies);
+          })
+          .on("error", function (error) {
+            const wrapper = document.createElement("div");
+            wrapper.innerHTML = [
+              `<div class="alert alert-danger alert-dismissible" role="alert">`,
+              `   <div>${error}</div>`,
+              '   <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>',
+              "</div>",
+            ].join("");
+
+            $("#txStatus").append(wrapper);
+          });
+      }
+
+      function feedOnKitty(zombieId, kittyId) {
+        $("#txStatus").text("Eating a kitty. This may take a while...");
+        return cryptoZombies.methods
+          .feedOnKitty(zombieId, kittyId)
+          .send({ from: userAccount })
+          .on("receipt", function (receipt) {
+            $("#txStatus").text("Ate a kitty and spawned a new Zombie!");
+            getZombiesByOwner(userAccount).then(displayZombies);
+          })
+          .on("error", function (error) {
+            $("#txStatus").text(error);
+          });
+      }
+
+      function levelUp(zombieId) {
+        const wrapper = document.createElement("div");
+        wrapper.innerHTML = [
+          `<div class="alert alert-warning alert-dismissible" role="alert">`,
+          `   <div>Leveling up your zombie...</div>`,
+          '   <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>',
+          "</div>",
+        ].join("");
+
+        $("#txStatus").append(wrapper);
+
+        return cryptoZombies.methods
+          .levelUp(zombieId)
+          .send({
+            from: userAccount,
+            value: web3.utils.toWei("0.001", "ether"),
+          })
+          .on("receipt", function (receipt) {
+            const wrapper = document.createElement("div");
+            wrapper.innerHTML = [
+              `<div class="alert alert-success alert-dismissible" role="alert">`,
+              `   <div>Power overwhelming! Zombie successfully leveled up</div>`,
+              '   <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>',
+              "</div>",
+            ].join("");
+
+            $("#txStatus").append(wrapper);
+
+            getZombieDetails(zombieId).then(function (zombie) {
+              $("#avtar").attr({
+                src: selectAvtar(zombie.level),
+                "ios-src": selectAvtar(zombie.level),
+              });
+            });
+          })
+          .on("error", function (error) {
+            const wrapper = document.createElement("div");
+            wrapper.innerHTML = [
+              `<div class="alert alert-danger alert-dismissible" role="alert">`,
+              `   <div>${error}</div>`,
+              '   <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>',
+              "</div>",
+            ].join("");
+
+            $("#txStatus").append(wrapper);
+          });
+      }
+
+      function getZombieDetails(id) {
+        return cryptoZombies.methods.zombies(id).call();
+      }
+
+      function zombieToOwner(id) {
+        return cryptoZombies.methods.zombieToOwner(id).call();
+      }
+
+      function getZombiesByOwner(owner) {
+        console.debug(owner);
+
+        return cryptoZombies.methods.getZombiesByOwner(owner).call();
+      }
+
+      window.addEventListener("load", async () => {
+        // Modern dapp browsers...
+        if (window.ethereum) {
+          window.web3 = new Web3(ethereum);
+          try {
+            // Request account access if needed
+            const accounts = await ethereum.enable();
+            // Acccounts now exposed
+            userAccount = accounts[0];
+            startApp();
+          } catch (error) {
+            // User denied account access...
+          }
+        }
+        // Legacy dapp browsers...
+        else if (window.web3) {
+          window.web3 = new Web3(web3.currentProvider);
+          // Acccounts always exposed
+          userAccount = web3.eth.accounts[0];
+          startApp();
+        }
+        // Non-dapp browsers...
+        else {
+          console.log(
+            "Non-Ethereum browser detected. You should consider trying MetaMask!"
+          );
+        }
+      });
+
+      //the following code from Lesson 6, chapter 2 is obsolete
+      //metamask no longer inject web3 since early 2021
+      //window.addEventListener('load', function () {
+
+      //    if (typeof web3 !== 'undefined') {
+      //     web3js = new Web3(web3.currentProvider);
+      //   } else {
+
+      //  }
+
+      //  startApp()
+
+      //  })
+
+      ethereum.on("accountsChanged", (accounts) => {
+        window.location.reload();
+      });
+
+      ethereum.on("chainChanged", (chainId) => {
+        window.location.reload();
+      });
+
+      createzombieButton.addEventListener("click", () => {
+        createRandomZombie(userAccount);
+      });
+
+      showZombieButton.addEventListener("click", () => {
+        getZombiesByOwner(userAccount).then((zombies) => {
+          console.debug(zombies);
+          displayZombies(zombies);
+        });
+      });
+
+      levelupButton.addEventListener("click", () => {
+        getZombiesByOwner(userAccount).then(levelUp);
+      });
+    </script>
+
+    <!-- bootstrap js  -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
+  </body>
+</html>

@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CryptoZombies</title>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"
+    />
+    <link rel="stylesheet" href="styles.css" />
+    <script
+      type="module"
+      src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"
+    ></script>
+    <script
+      nomodule
+      src="https://unpkg.com/@google/model-viewer/dist/model-viewer-legacy.js"
+    ></script>
+  </head>
+  <body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg bg-transparent">
+      <div class="container-fluid">
+        <!-- nav logo -->
+        <a class="navbar-brand text-white" href="#">
+          <img
+            src="https://download.logo.wine/logo/Ethereum/Ethereum-Logo.wine.png"
+            alt="ZombieDApp"
+            width="50"
+            height="54"
+            class="d-inline-block align-text-center"
+          />
+          ZombieDApp
+        </a>
+
+        <!-- toggle button nav -->
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarSupportedContent"
+          aria-controls="navbarSupportedContent"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <li class="nav-item mx-2">
+              <a
+                class="nav-link text-white"
+                aria-current="page"
+                href="index.html"
+                >Home</a
+              >
+            </li>
+            <li class="nav-item mx-2">
+              <a
+                class="nav-link text-white-50 border-bottom border-white active"
+                href="about.html"
+                >About</a
+              >
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+    <!-- Complete navbar code -->
+
+    <div class="container my-5">
+      <div class="row">
+        <div class="col-3 text-center px-2">
+          <model-viewer
+            id="avtar2"
+            src="assets/zombie (1)/scene.gltf"
+            alt="VR Headset"
+            autoplay
+            auto-rotate
+            shadow-intensity="5"
+            camera-controls
+            ar
+            ios-src="assets/zombie (1)/scene.gltf"
+          ></model-viewer>
+          <div class="content">
+            <p>Dhyey Desai</p>
+            <p>dhyeydesai@csu.fullerton.edu</p>
+            <p>CWID:- 885451609</p>
+          </div>
+        </div>
+        <div class="col-3 text-center px-2">
+          <model-viewer
+            id="avtar3"
+            src="assets/zombie_monster/scene.gltf"
+            alt="VR Headset"
+            autoplay
+            auto-rotate
+            shadow-intensity="5"
+            camera-controls
+            ar
+            ios-src="assets/zombie_monster/scene.gltf"
+          ></model-viewer>
+          <div class="content">
+            <p>Pranav Pansheriya</p>
+            <p>pranav08@csu.fullerton.edu</p>
+            <p>CWID:- 885187419</p>
+          </div>
+        </div>
+        <div class="col-3 text-center px-2">
+          <model-viewer
+            id="avtar4"
+            src="assets/zombie._animation_test_for_the_game/scene.gltf"
+            alt="VR Headset"
+            autoplay
+            auto-rotate
+            shadow-intensity="5"
+            camera-controls
+            ar
+            ios-src="assets/zombie._animation_test_for_the_game/scene.gltf"
+          ></model-viewer>
+          <div class="content">
+            <p>Darshit Desai</p>
+            <p>darshdesai05@csu.fullerton.edu</p>
+            <p>CWID:- 885516997</p>
+          </div>
+        </div>
+        <div class="col-3 text-center px-2">
+          <model-viewer
+            id="avtar5"
+            src="assets/zombie_woman/scene.gltf"
+            alt="VR Headset"
+            autoplay
+            auto-rotate
+            shadow-intensity="5"
+            camera-controls
+            ar
+            ios-src="assets/zombie_woman/scene.gltf"
+          ></model-viewer>
+          <div class="content">
+            <p>Parth Barot</p>
+            <p>parth.barot97@csu.fullerton.edu</p>
+            <p>CWID:- 885451617</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
